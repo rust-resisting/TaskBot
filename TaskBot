@@ -4,7 +4,7 @@ import config
 import sqlite3
 
 
-#Блок бота на вывод списка задач
+#Вывод списка задач
 bot = telebot.TeleBot(config.token)
 @bot.message_handler(commands=['tsk'])
 def lis(message):
@@ -20,19 +20,17 @@ def lis(message):
 	#Форматирование списка для вывода
 	sp = '\n'.join(new)
 	print(sp)
-	#Дроп базы
 	con.commit()
 	cur.close()
 	con.close()
 	bot.send_message(message.chat.id, sp, None)
 	return
 
-#Блок бота на добавление задачи
+#Добавление задачи
 @bot.message_handler(commands=['ntsk'])
-
 def new_task(message):
 	bot.send_message(message.chat.id, "Введите новую задачу:", None)
-#проучаем ответ пользователя
+#Получение ответа пользователя
 	@bot.message_handler(func=lambda message: True, content_types=['text'])
 	def ntask(message):
 #Апаем БДу
@@ -46,12 +44,11 @@ def new_task(message):
 		bot.send_message(message.chat.id, "ЗАДАЧА СОЗДАНА", None)
 		lis(message)
 
-#Блок бота на удаление задачи
+#Удаление задачи
 @bot.message_handler(commands=['dtsk'])
-
 def del_task(message):
 	bot.send_message(message.chat.id, "Введите номер удаляемой задачи:", None)
-#проучаем ответ пользователя
+#Получение ответа пользователя
 	@bot.message_handler(func=lambda message: True, content_types=['text'])
 	def dtask(message):
 #Апаем БДу
